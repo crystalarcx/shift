@@ -149,17 +149,17 @@ export const BatchGenerator: React.FC<BatchGeneratorProps> = ({
   ];
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl text-slate-100 mb-8">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+    <div className="bg-neutral-50 border border-neutral-200 rounded-2xl p-6 shadow-xl text-neutral-900 mb-8">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-neutral-200">
         <div className="flex items-center space-x-3">
-          <div className="p-2.5 rounded-xl bg-cyan-950 border border-cyan-800 text-cyan-400">
+          <div className="p-2.5 rounded-xl bg-blue-50 border border-blue-100 text-blue-600">
             <Zap className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="text-base font-bold text-white flex items-center gap-2">
+            <h3 className="text-base font-bold text-neutral-900 flex items-center gap-2">
               月度常規加班一鍵批次產生器
             </h3>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-neutral-500">
               勾選月份日曆與加班時間範本，自動產生整個月份的加班申報明細
             </p>
           </div>
@@ -167,7 +167,7 @@ export const BatchGenerator: React.FC<BatchGeneratorProps> = ({
 
         {/* Target Month Select */}
         <div className="flex items-center space-x-2">
-          <label className="text-xs text-slate-300 font-medium">申報月份:</label>
+          <label className="text-xs text-neutral-700 font-medium">申報月份:</label>
           <input
             id="target-month-picker"
             type="month"
@@ -176,7 +176,7 @@ export const BatchGenerator: React.FC<BatchGeneratorProps> = ({
               setTargetMonth(e.target.value);
               setSelectedDates([]);
             }}
-            className="bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-cyan-500 font-mono"
+            className="bg-white border border-neutral-300 rounded-lg px-3 py-1.5 text-xs text-neutral-900 focus:outline-none focus:border-blue-600 font-mono"
           />
         </div>
       </div>
@@ -185,10 +185,10 @@ export const BatchGenerator: React.FC<BatchGeneratorProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 pt-5 flex-col-reverse lg:flex-row">
         
         {/* Left Column: Month Calendar Date Picker (7 cols) */}
-        <div className="lg:col-span-7 bg-slate-950 border border-slate-800 rounded-xl p-4 flex flex-col h-fit">
-          <div className="flex items-center justify-between pb-3 border-b border-slate-800 mb-3">
-            <span className="text-xs font-semibold text-slate-200 flex items-center gap-1.5">
-              <Calendar className="w-4 h-4 text-cyan-400" />
+        <div className="lg:col-span-7 bg-white border border-neutral-200 rounded-xl p-4 flex flex-col h-fit">
+          <div className="flex items-center justify-between pb-3 border-b border-neutral-200 mb-3">
+            <span className="text-xs font-semibold text-neutral-800 flex items-center gap-1.5">
+              <Calendar className="w-4 h-4 text-blue-600" />
               1. 點選欲加入的日期 ({targetMonth})
             </span>
 
@@ -197,28 +197,28 @@ export const BatchGenerator: React.FC<BatchGeneratorProps> = ({
               <button
                 type="button"
                 onClick={handleSelectWeekdaysOnly}
-                className="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-slate-700 transition"
+                className="px-2 py-1 rounded bg-neutral-100 hover:bg-neutral-200 text-blue-600 border border-neutral-300 transition"
               >
                 平日
               </button>
               <button
                 type="button"
                 onClick={handleSelectWeekendsOnly}
-                className="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-amber-300 border border-slate-700 transition"
+                className="px-2 py-1 rounded bg-neutral-100 hover:bg-neutral-200 text-amber-700 border border-neutral-300 transition"
               >
                 週末
               </button>
               <button
                 type="button"
                 onClick={handleSelectAllDays}
-                className="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition"
+                className="px-2 py-1 rounded bg-neutral-100 hover:bg-neutral-200 text-neutral-800 border border-neutral-300 transition"
               >
                 全選
               </button>
               <button
                 type="button"
                 onClick={handleClearSelection}
-                className="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-400 border border-slate-700 transition"
+                className="px-2 py-1 rounded bg-neutral-100 hover:bg-neutral-200 text-neutral-500 border border-neutral-300 transition"
               >
                 清除
               </button>
@@ -226,7 +226,7 @@ export const BatchGenerator: React.FC<BatchGeneratorProps> = ({
           </div>
 
           {/* Calendar Grid Header (Mon-Sun) */}
-          <div className="grid grid-cols-7 gap-1 text-center text-[11px] font-semibold text-slate-400 mb-1">
+          <div className="grid grid-cols-7 gap-1 text-center text-[11px] font-semibold text-neutral-500 mb-1">
             <div>日</div>
             <div>一</div>
             <div>二</div>
@@ -252,10 +252,10 @@ export const BatchGenerator: React.FC<BatchGeneratorProps> = ({
                   onClick={() => toggleDate(d.dateStr)}
                   className={`h-9 rounded-lg text-xs font-semibold transition-all flex flex-col items-center justify-center border ${
                     isSelected
-                      ? 'bg-cyan-500 text-slate-950 border-cyan-400 shadow-md font-bold scale-[1.02]'
+                      ? 'bg-blue-600 text-white border-blue-600 shadow-md font-bold scale-[1.02]'
                       : d.isWeekend
-                      ? 'bg-slate-900 border-slate-800 text-amber-400/80 hover:border-slate-700'
-                      : 'bg-slate-900 border-slate-800 text-slate-300 hover:border-slate-700'
+                      ? 'bg-neutral-50 border-neutral-200 text-amber-700/80 hover:border-neutral-300'
+                      : 'bg-neutral-50 border-neutral-200 text-neutral-700 hover:border-neutral-300'
                   }`}
                 >
                   <span>{d.dayNum}</span>
@@ -264,9 +264,9 @@ export const BatchGenerator: React.FC<BatchGeneratorProps> = ({
             })}
           </div>
           
-          <div className="mt-4 pt-3 border-t border-slate-800 text-right">
-            <span className="text-xs text-slate-400">
-              已選擇 <strong className="text-cyan-400 font-bold">{selectedDates.length}</strong> 天
+          <div className="mt-4 pt-3 border-t border-neutral-200 text-right">
+            <span className="text-xs text-neutral-500">
+              已選擇 <strong className="text-blue-600 font-bold">{selectedDates.length}</strong> 天
             </span>
           </div>
         </div>
@@ -275,9 +275,9 @@ export const BatchGenerator: React.FC<BatchGeneratorProps> = ({
         <div className="lg:col-span-5 flex flex-col gap-6">
           
           {/* 1. Quick Presets */}
-          <div className="bg-slate-950 border border-slate-800 rounded-xl p-4 shadow-sm">
-            <label className="block text-xs font-semibold text-slate-200 mb-3">
-              2a. 快速套用範本產生 <span className="text-[10px] text-slate-500 font-normal block mt-0.5">依左側勾選日期，一鍵自動帶入多筆</span>
+          <div className="bg-white border border-neutral-200 rounded-xl p-4 shadow-sm">
+            <label className="block text-xs font-semibold text-neutral-800 mb-3">
+              2a. 快速套用範本產生 <span className="text-[10px] text-neutral-400 font-normal block mt-0.5">依左側勾選日期，一鍵自動帶入多筆</span>
             </label>
             <div className="grid grid-cols-2 gap-2.5">
               <button
@@ -307,24 +307,24 @@ export const BatchGenerator: React.FC<BatchGeneratorProps> = ({
               <button
                 type="button"
                 onClick={() => handleQuickGenerate('hah')}
-                className="p-2.5 rounded-xl bg-emerald-950 border border-emerald-800 hover:bg-emerald-900 transition flex flex-col items-start gap-1"
+                className="p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 hover:bg-emerald-900 transition flex flex-col items-start gap-1"
               >
-                <span className="text-xs font-bold text-emerald-300">HAH</span>
-                <span className="text-[10px] text-emerald-400/80">0900-1200</span>
+                <span className="text-xs font-bold text-emerald-600">HAH</span>
+                <span className="text-[10px] text-emerald-600/80">0900-1200</span>
               </button>
             </div>
           </div>
 
           {/* 2. Custom Generate */}
-          <div className="bg-slate-950 border border-slate-800 rounded-xl p-4 shadow-sm space-y-4">
-            <label className="block text-xs font-semibold text-slate-200">
-              2b. 自訂時間產生 <span className="text-[10px] text-slate-500 font-normal">或手動設定時段與事由</span>
+          <div className="bg-white border border-neutral-200 rounded-xl p-4 shadow-sm space-y-4">
+            <label className="block text-xs font-semibold text-neutral-800">
+              2b. 自訂時間產生 <span className="text-[10px] text-neutral-400 font-normal">或手動設定時段與事由</span>
             </label>
             
             {/* Time 0000 format */}
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-semibold text-slate-400 mb-1">
+                <label className="block text-xs font-semibold text-neutral-500 mb-1">
                   起始時間 <span className="text-[10px] font-normal">(0000格式)</span>
                 </label>
                 <input
@@ -333,11 +333,11 @@ export const BatchGenerator: React.FC<BatchGeneratorProps> = ({
                   placeholder="1730"
                   value={startTime}
                   onChange={(e) => setStartTime(e.target.value.replace(/[^0-9]/g, ''))}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-2 text-sm text-center text-amber-300 font-mono font-bold focus:outline-none focus:border-cyan-500"
+                  className="w-full bg-neutral-50 border border-neutral-300 rounded-lg px-2 py-2 text-sm text-center text-amber-700 font-mono font-bold focus:outline-none focus:border-blue-600"
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-slate-400 mb-1">
+                <label className="block text-xs font-semibold text-neutral-500 mb-1">
                   結束時間 <span className="text-[10px] font-normal">(0000格式)</span>
                 </label>
                 <input
@@ -346,14 +346,14 @@ export const BatchGenerator: React.FC<BatchGeneratorProps> = ({
                   placeholder="1930"
                   value={endTime}
                   onChange={(e) => setEndTime(e.target.value.replace(/[^0-9]/g, ''))}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-2 text-sm text-center text-amber-300 font-mono font-bold focus:outline-none focus:border-cyan-500"
+                  className="w-full bg-neutral-50 border border-neutral-300 rounded-lg px-2 py-2 text-sm text-center text-amber-700 font-mono font-bold focus:outline-none focus:border-blue-600"
                 />
               </div>
             </div>
 
             {/* Reason Input with Quick Presets */}
             <div>
-              <label className="block text-xs font-semibold text-slate-400 mb-1">
+              <label className="block text-xs font-semibold text-neutral-500 mb-1">
                 事由描述 / 加班說明
               </label>
               <input
@@ -361,7 +361,7 @@ export const BatchGenerator: React.FC<BatchGeneratorProps> = ({
                 value={reason}
                 onChange={(e) => setReason(e.target.value)}
                 placeholder="例如: 處置病人與交接寫病歷"
-                className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500 mb-2"
+                className="w-full bg-neutral-50 border border-neutral-300 rounded-lg px-3 py-2 text-xs text-neutral-900 focus:outline-none focus:border-blue-600 mb-2"
               />
               <div className="flex flex-wrap gap-1.5">
                 {commonReasons.map((r, idx) => (
@@ -369,7 +369,7 @@ export const BatchGenerator: React.FC<BatchGeneratorProps> = ({
                     key={idx}
                     type="button"
                     onClick={() => setReason(r)}
-                    className="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 border border-slate-700 text-[11px] text-slate-300 transition"
+                    className="px-2 py-0.5 rounded bg-neutral-100 hover:bg-neutral-200 border border-neutral-300 text-[11px] text-neutral-700 transition"
                   >
                     + {r}
                   </button>
@@ -377,17 +377,17 @@ export const BatchGenerator: React.FC<BatchGeneratorProps> = ({
               </div>
             </div>
 
-            <div className="pt-3 border-t border-slate-800/50 flex flex-col gap-3">
-              <span className="text-xs text-slate-400">
-                時數小計：<strong className="text-cyan-400 font-bold">{selectedDates.length}</strong> 天 × {hours}h ={' '}
-                <strong className="text-emerald-400 font-bold">{selectedDates.length * hours}</strong>h
+            <div className="pt-3 border-t border-neutral-200/50 flex flex-col gap-3">
+              <span className="text-xs text-neutral-500">
+                時數小計：<strong className="text-blue-600 font-bold">{selectedDates.length}</strong> 天 × {hours}h ={' '}
+                <strong className="text-emerald-600 font-bold">{selectedDates.length * hours}</strong>h
               </span>
 
               <button
                 id="generate-batch-records-btn"
                 type="button"
                 onClick={handleGenerate}
-                className="w-full py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold text-xs shadow-lg shadow-cyan-500/20 transition flex items-center justify-center space-x-1.5"
+                className="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-lg shadow-blue-600/20 transition flex items-center justify-center space-x-1.5"
               >
                 <Plus className="w-4 h-4" />
                 <span>依自訂時間產生 ({selectedDates.length}筆)</span>

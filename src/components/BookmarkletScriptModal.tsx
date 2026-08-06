@@ -347,7 +347,7 @@ export const BookmarkletScriptModal: React.FC<BookmarkletScriptModalProps> = ({
               autoBtn.style.pointerEvents = 'none';
             }
             doSubmit();
-          }, 1500); // 等待1.5秒再執行下一筆，確保系統處理完畢
+          }, 2000); // Wait 2 seconds for next submission
         }
       }, 500);
     }
@@ -396,39 +396,39 @@ export const BookmarkletScriptModal: React.FC<BookmarkletScriptModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-3xl w-full p-6 shadow-2xl text-slate-100 max-h-[90vh] overflow-y-auto">
-        <div className="flex items-center justify-between pb-4 border-b border-slate-800 mb-5">
+    <div className="fixed inset-0 z-50 bg-white/80 backdrop-blur-sm flex items-center justify-center p-4">
+      <div className="bg-neutral-50 border border-neutral-200 rounded-2xl max-w-3xl w-full p-6 shadow-2xl text-neutral-900 max-h-[90vh] overflow-y-auto">
+        <div className="flex items-center justify-between pb-4 border-b border-neutral-200 mb-5">
           <div className="flex items-center space-x-3">
-            <div className="p-2.5 rounded-xl bg-cyan-950 border border-cyan-800 text-cyan-400">
+            <div className="p-2.5 rounded-xl bg-blue-50 border border-blue-100 text-blue-600">
               <Code className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-white flex items-center gap-2">
+              <h3 className="text-base font-bold text-neutral-900 flex items-center gap-2">
                 瀏覽器一鍵填表腳本 (100% 成功率方案)
               </h3>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-neutral-500">
                 繞過 CORS 內網限制，直接於奇美加班申報頁面自動依序填寫 {validRecords.length} 筆資料
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-white px-2 py-1 text-xs rounded-lg border border-slate-700"
+            className="text-neutral-500 hover:text-neutral-900 px-2 py-1 text-xs rounded-lg border border-neutral-300"
           >
             關閉 ✕
           </button>
         </div>
 
         {/* Script Mode Selector */}
-        <div className="flex space-x-2 border-b border-slate-800 pb-3 mb-4 text-xs font-semibold">
+        <div className="flex space-x-2 border-b border-neutral-200 pb-3 mb-4 text-xs font-semibold">
           <button
             type="button"
             onClick={() => setScriptType('bookmarklet')}
             className={`px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 ${
               scriptType === 'bookmarklet'
-                ? 'bg-cyan-500 text-slate-950 font-bold'
-                : 'bg-slate-800 text-slate-300 hover:text-white'
+                ? 'bg-blue-600 text-white font-bold'
+                : 'bg-neutral-100 text-neutral-700 hover:text-neutral-900'
             }`}
           >
             <Sparkles className="w-3.5 h-3.5" />
@@ -440,8 +440,8 @@ export const BookmarkletScriptModal: React.FC<BookmarkletScriptModalProps> = ({
             onClick={() => setScriptType('console')}
             className={`px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 ${
               scriptType === 'console'
-                ? 'bg-cyan-500 text-slate-950 font-bold'
-                : 'bg-slate-800 text-slate-300 hover:text-white'
+                ? 'bg-blue-600 text-white font-bold'
+                : 'bg-neutral-100 text-neutral-700 hover:text-neutral-900'
             }`}
           >
             <Terminal className="w-3.5 h-3.5" />
@@ -452,19 +452,19 @@ export const BookmarkletScriptModal: React.FC<BookmarkletScriptModalProps> = ({
         {/* Instructions */}
         {scriptType === 'bookmarklet' && (
           <div className="space-y-4">
-            <div className="p-4 bg-slate-950 border border-slate-800 rounded-xl">
-              <h4 className="text-xs font-bold text-cyan-300 mb-2 flex items-center gap-1.5">
-                <Play className="w-4 h-4 fill-cyan-400" /> 操作三步驟 (最推薦!):
+            <div className="p-4 bg-white border border-neutral-200 rounded-xl">
+              <h4 className="text-xs font-bold text-blue-600 mb-2 flex items-center gap-1.5">
+                <Play className="w-4 h-4 fill-blue-600" /> 操作三步驟 (最推薦!):
               </h4>
-              <ol className="list-decimal list-inside text-xs text-slate-300 space-y-2 leading-relaxed">
+              <ol className="list-decimal list-inside text-xs text-neutral-700 space-y-2 leading-relaxed">
                 <li>
-                  將下方這個「<strong className="text-cyan-400">奇美加班一鍵填表</strong>」按鈕，直接<strong>拖曳到您的瀏覽器書籤列</strong>（或複製下方 URL 新增為書籤）：
+                  將下方這個「<strong className="text-blue-600">奇美加班一鍵填表</strong>」按鈕，直接<strong>拖曳到您的瀏覽器書籤列</strong>（或複製下方 URL 新增為書籤）：
                 </li>
                 <li className="pt-1 pb-1">
                   <div className="flex items-center space-x-3">
                     <span
                       dangerouslySetInnerHTML={{
-                        __html: `<a href="${bookmarkletHref}" onclick="event.preventDefault()" class="inline-flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-extrabold text-xs rounded-xl shadow-lg cursor-grab active:cursor-grabbing border border-cyan-300">
+                        __html: `<a href="${bookmarkletHref}" onclick="event.preventDefault()" class="inline-flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white font-extrabold text-xs rounded-xl shadow-lg cursor-grab active:cursor-grabbing border border-blue-600">
                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/></svg>
                           <span>拖曳我至書籤列：奇美加班一鍵填寫</span>
                         </a>`
@@ -473,9 +473,9 @@ export const BookmarkletScriptModal: React.FC<BookmarkletScriptModalProps> = ({
                     <button
                       type="button"
                       onClick={() => handleCopy(bookmarkletHref)}
-                      className="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-lg text-xs flex items-center space-x-1"
+                      className="px-3 py-2 bg-neutral-100 hover:bg-neutral-200 text-neutral-800 border border-neutral-300 rounded-lg text-xs flex items-center space-x-1"
                     >
-                      {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                      {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
                       <span>{copied ? '已複製連結' : '複製連結網址'}</span>
                     </button>
                   </div>
@@ -486,7 +486,7 @@ export const BookmarkletScriptModal: React.FC<BookmarkletScriptModalProps> = ({
                     href={`${config.targetUrl}?ihosp=${config.ihosp}&iuser=${config.iuser}&CC=${encodeURIComponent(config.ccToken)}`}
                     target="_blank"
                     rel="noreferrer"
-                    className="text-cyan-400 underline font-mono ml-1"
+                    className="text-blue-600 underline font-mono ml-1"
                   >
                     chimei.org.tw/overwork/index5.htm
                   </a>
@@ -501,30 +501,30 @@ export const BookmarkletScriptModal: React.FC<BookmarkletScriptModalProps> = ({
 
         {scriptType === 'console' && (
           <div className="space-y-3">
-            <div className="text-xs text-slate-300">
-              開啟奇美加班申報頁面，按 <kbd className="px-1.5 py-0.5 bg-slate-800 rounded border border-slate-700 text-cyan-300">F12</kbd> 切換至 Console (控制台)，貼上並按 Enter 即可：
+            <div className="text-xs text-neutral-700">
+              開啟奇美加班申報頁面，按 <kbd className="px-1.5 py-0.5 bg-neutral-100 rounded border border-neutral-300 text-blue-600">F12</kbd> 切換至 Console (控制台)，貼上並按 Enter 即可：
             </div>
 
             <div className="relative">
-              <pre className="p-4 bg-slate-950 border border-slate-800 rounded-xl text-[11px] font-mono text-cyan-300 overflow-x-auto max-h-60 leading-relaxed">
+              <pre className="p-4 bg-white border border-neutral-200 rounded-xl text-[11px] font-mono text-blue-600 overflow-x-auto max-h-60 leading-relaxed">
                 {rawCode}
               </pre>
               <button
                 type="button"
                 onClick={() => handleCopy(rawCode)}
-                className="absolute top-3 right-3 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs border border-slate-700 flex items-center space-x-1 shadow"
+                className="absolute top-3 right-3 px-3 py-1.5 bg-neutral-100 hover:bg-neutral-200 text-neutral-900 rounded-lg text-xs border border-neutral-300 flex items-center space-x-1 shadow"
               >
-                {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
                 <span>{copied ? '已複製全部程式碼' : '複製 Code'}</span>
               </button>
             </div>
           </div>
         )}
 
-        <div className="mt-6 pt-4 border-t border-slate-800 flex justify-end">
+        <div className="mt-6 pt-4 border-t border-neutral-200 flex justify-end">
           <button
             onClick={onClose}
-            className="px-5 py-2 bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold rounded-xl border border-slate-700"
+            className="px-5 py-2 bg-neutral-100 hover:bg-neutral-200 text-neutral-900 text-xs font-semibold rounded-xl border border-neutral-300"
           >
             完成並關閉
           </button>

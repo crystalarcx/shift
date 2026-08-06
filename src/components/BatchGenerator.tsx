@@ -182,196 +182,204 @@ export const BatchGenerator: React.FC<BatchGeneratorProps> = ({
       </div>
 
       {/* Main Form Settings & Calendar Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 pt-5">
-        {/* Left Column: Preset Times & Reason (5 cols) */}
-        <div className="lg:col-span-5 space-y-4">
-          {/* Time 0000 format */}
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">
-                2. 起始時間 <span className="text-[10px] text-amber-400 font-normal">(0000格式如0700)</span>
-              </label>
-              <input
-                type="text"
-                maxLength={4}
-                placeholder="1730"
-                value={startTime}
-                onChange={(e) => setStartTime(e.target.value.replace(/[^0-9]/g, ''))}
-                className="w-full bg-slate-950 border border-slate-700 rounded-lg px-2 py-2 text-sm text-center text-amber-300 font-mono font-bold focus:outline-none focus:border-cyan-500"
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">
-                3. 結束時間 <span className="text-[10px] text-amber-400 font-normal">(0000格式如1930)</span>
-              </label>
-              <input
-                type="text"
-                maxLength={4}
-                placeholder="1930"
-                value={endTime}
-                onChange={(e) => setEndTime(e.target.value.replace(/[^0-9]/g, ''))}
-                className="w-full bg-slate-950 border border-slate-700 rounded-lg px-2 py-2 text-sm text-center text-amber-300 font-mono font-bold focus:outline-none focus:border-cyan-500"
-              />
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 pt-5 flex-col-reverse lg:flex-row">
+        
+        {/* Left Column: Month Calendar Date Picker (7 cols) */}
+        <div className="lg:col-span-7 bg-slate-950 border border-slate-800 rounded-xl p-4 flex flex-col h-fit">
+          <div className="flex items-center justify-between pb-3 border-b border-slate-800 mb-3">
+            <span className="text-xs font-semibold text-slate-200 flex items-center gap-1.5">
+              <Calendar className="w-4 h-4 text-cyan-400" />
+              1. 點選欲加入的日期 ({targetMonth})
+            </span>
+
+            {/* Quick Select Buttons */}
+            <div className="flex items-center space-x-1.5 text-[11px]">
+              <button
+                type="button"
+                onClick={handleSelectWeekdaysOnly}
+                className="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-slate-700 transition"
+              >
+                平日
+              </button>
+              <button
+                type="button"
+                onClick={handleSelectWeekendsOnly}
+                className="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-amber-300 border border-slate-700 transition"
+              >
+                週末
+              </button>
+              <button
+                type="button"
+                onClick={handleSelectAllDays}
+                className="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition"
+              >
+                全選
+              </button>
+              <button
+                type="button"
+                onClick={handleClearSelection}
+                className="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-400 border border-slate-700 transition"
+              >
+                清除
+              </button>
             </div>
           </div>
 
-          {/* Reason Input with Quick Presets */}
-          <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1">
-              4. 事由描述 / 加班說明
-            </label>
-            <input
-              type="text"
-              value={reason}
-              onChange={(e) => setReason(e.target.value)}
-              placeholder="例如: 處置病人與交接寫病歷"
-              className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500 mb-2"
-            />
-            <div className="flex flex-wrap gap-1.5">
-              {commonReasons.map((r, idx) => (
+          {/* Calendar Grid Header (Mon-Sun) */}
+          <div className="grid grid-cols-7 gap-1 text-center text-[11px] font-semibold text-slate-400 mb-1">
+            <div>日</div>
+            <div>一</div>
+            <div>二</div>
+            <div>三</div>
+            <div>四</div>
+            <div>五</div>
+            <div>六</div>
+          </div>
+
+          {/* Calendar Days */}
+          <div className="grid grid-cols-7 gap-1.5">
+            {/* Padding offset for first day of month */}
+            {Array.from({ length: currentMonthDays[0]?.dayOfWeek || 0 }).map((_, i) => (
+              <div key={`empty_${i}`} className="h-9 rounded border border-transparent" />
+            ))}
+
+            {currentMonthDays.map((d) => {
+              const isSelected = selectedDates.includes(d.dateStr);
+              return (
                 <button
-                  key={idx}
+                  key={d.dateStr}
                   type="button"
-                  onClick={() => setReason(r)}
-                  className="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 border border-slate-700 text-[11px] text-slate-300 transition"
+                  onClick={() => toggleDate(d.dateStr)}
+                  className={`h-9 rounded-lg text-xs font-semibold transition-all flex flex-col items-center justify-center border ${
+                    isSelected
+                      ? 'bg-cyan-500 text-slate-950 border-cyan-400 shadow-md font-bold scale-[1.02]'
+                      : d.isWeekend
+                      ? 'bg-slate-900 border-slate-800 text-amber-400/80 hover:border-slate-700'
+                      : 'bg-slate-900 border-slate-800 text-slate-300 hover:border-slate-700'
+                  }`}
                 >
-                  + {r}
+                  <span>{d.dayNum}</span>
                 </button>
-              ))}
-            </div>
+              );
+            })}
+          </div>
+          
+          <div className="mt-4 pt-3 border-t border-slate-800 text-right">
+            <span className="text-xs text-slate-400">
+              已選擇 <strong className="text-cyan-400 font-bold">{selectedDates.length}</strong> 天
+            </span>
           </div>
         </div>
 
-        {/* Right Column: Month Calendar Date Picker (7 cols) */}
-        <div className="lg:col-span-7 bg-slate-950 border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
-          <div>
-            <div className="flex items-center justify-between pb-3 border-b border-slate-800 mb-3">
-              <span className="text-xs font-semibold text-slate-200 flex items-center gap-1.5">
-                <Calendar className="w-4 h-4 text-cyan-400" />
-                點選欲批次加入的日期 ({targetMonth})
-              </span>
-
-              {/* Quick Select Buttons */}
-              <div className="flex items-center space-x-1.5 text-[11px]">
-                <button
-                  type="button"
-                  onClick={handleSelectWeekdaysOnly}
-                  className="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-slate-700 transition"
-                >
-                  選平日(週一~五)
-                </button>
-                <button
-                  type="button"
-                  onClick={handleSelectWeekendsOnly}
-                  className="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-amber-300 border border-slate-700 transition"
-                >
-                  選週末(六/日)
-                </button>
-                <button
-                  type="button"
-                  onClick={handleSelectAllDays}
-                  className="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition"
-                >
-                  全選
-                </button>
-                <button
-                  type="button"
-                  onClick={handleClearSelection}
-                  className="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-400 border border-slate-700 transition"
-                >
-                  清除
-                </button>
-              </div>
-            </div>
-
-            {/* Calendar Grid Header (Mon-Sun) */}
-            <div className="grid grid-cols-7 gap-1 text-center text-[11px] font-semibold text-slate-400 mb-1">
-              <div>日</div>
-              <div>一</div>
-              <div>二</div>
-              <div>三</div>
-              <div>四</div>
-              <div>五</div>
-              <div>六</div>
-            </div>
-
-            {/* Calendar Days */}
-            <div className="grid grid-cols-7 gap-1.5">
-              {/* Padding offset for first day of month */}
-              {Array.from({ length: currentMonthDays[0]?.dayOfWeek || 0 }).map((_, i) => (
-                <div key={`empty_${i}`} className="h-9 rounded border border-transparent" />
-              ))}
-
-              {currentMonthDays.map((d) => {
-                const isSelected = selectedDates.includes(d.dateStr);
-                return (
-                  <button
-                    key={d.dateStr}
-                    type="button"
-                    onClick={() => toggleDate(d.dateStr)}
-                    className={`h-9 rounded-lg text-xs font-semibold transition-all flex flex-col items-center justify-center border ${
-                      isSelected
-                        ? 'bg-cyan-500 text-slate-950 border-cyan-400 shadow-md font-bold scale-[1.02]'
-                        : d.isWeekend
-                        ? 'bg-slate-900 border-slate-800 text-amber-400/80 hover:border-slate-700'
-                        : 'bg-slate-900 border-slate-800 text-slate-300 hover:border-slate-700'
-                    }`}
-                  >
-                    <span>{d.dayNum}</span>
-                  </button>
-                );
-              })}
+        {/* Right Column: Actions (5 cols) */}
+        <div className="lg:col-span-5 flex flex-col gap-6">
+          
+          {/* 1. Quick Presets */}
+          <div className="bg-slate-950 border border-slate-800 rounded-xl p-4 shadow-sm">
+            <label className="block text-xs font-semibold text-slate-200 mb-3">
+              2a. 快速套用範本產生 <span className="text-[10px] text-slate-500 font-normal block mt-0.5">依左側勾選日期，一鍵自動帶入多筆</span>
+            </label>
+            <div className="grid grid-cols-2 gap-2.5">
+              <button
+                type="button"
+                onClick={() => handleQuickGenerate('day7')}
+                className="p-2.5 rounded-xl bg-indigo-950 border border-indigo-800 hover:bg-indigo-900 transition flex flex-col items-start gap-1"
+              >
+                <span className="text-xs font-bold text-indigo-300">白班(7)</span>
+                <span className="text-[10px] text-indigo-400/80">0500-0700 & 1800-2000</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleQuickGenerate('day8')}
+                className="p-2.5 rounded-xl bg-indigo-950 border border-indigo-800 hover:bg-indigo-900 transition flex flex-col items-start gap-1"
+              >
+                <span className="text-xs font-bold text-indigo-300">白班(8)</span>
+                <span className="text-[10px] text-indigo-400/80">0600-0800 & 1800-2000</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleQuickGenerate('night')}
+                className="p-2.5 rounded-xl bg-purple-950 border border-purple-800 hover:bg-purple-900 transition flex flex-col items-start gap-1"
+              >
+                <span className="text-xs font-bold text-purple-300">小夜</span>
+                <span className="text-[10px] text-purple-400/80">1400-1600 & 隔日0200-0400</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleQuickGenerate('hah')}
+                className="p-2.5 rounded-xl bg-emerald-950 border border-emerald-800 hover:bg-emerald-900 transition flex flex-col items-start gap-1"
+              >
+                <span className="text-xs font-bold text-emerald-300">HAH</span>
+                <span className="text-[10px] text-emerald-400/80">0900-1200</span>
+              </button>
             </div>
           </div>
 
-          {/* Bottom Generate Actions */}
-          <div className="mt-4 pt-3 border-t border-slate-800 flex flex-col gap-4">
+          {/* 2. Custom Generate */}
+          <div className="bg-slate-950 border border-slate-800 rounded-xl p-4 shadow-sm space-y-4">
+            <label className="block text-xs font-semibold text-slate-200">
+              2b. 自訂時間產生 <span className="text-[10px] text-slate-500 font-normal">或手動設定時段與事由</span>
+            </label>
             
-            {/* Quick Presets */}
-            <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-2">
-                ⚡ 快速套用範本產生 <span className="text-[10px] text-slate-500 font-normal">(依勾選日期自動帶入多筆)</span>
-              </label>
-              <div className="grid grid-cols-2 xl:grid-cols-4 gap-2">
-                <button
-                  type="button"
-                  onClick={() => handleQuickGenerate('day7')}
-                  className="p-2 rounded-lg bg-indigo-950 border border-indigo-800 hover:bg-indigo-900 transition flex flex-col items-start gap-1"
-                >
-                  <span className="text-xs font-bold text-indigo-300">白班(7)</span>
-                  <span className="text-[10px] text-indigo-400/80">0500-0700 & 1800-2000</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleQuickGenerate('day8')}
-                  className="p-2 rounded-lg bg-indigo-950 border border-indigo-800 hover:bg-indigo-900 transition flex flex-col items-start gap-1"
-                >
-                  <span className="text-xs font-bold text-indigo-300">白班(8)</span>
-                  <span className="text-[10px] text-indigo-400/80">0600-0800 & 1800-2000</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleQuickGenerate('night')}
-                  className="p-2 rounded-lg bg-purple-950 border border-purple-800 hover:bg-purple-900 transition flex flex-col items-start gap-1"
-                >
-                  <span className="text-xs font-bold text-purple-300">小夜</span>
-                  <span className="text-[10px] text-purple-400/80">1400-1600 & 隔日0200-0400</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleQuickGenerate('hah')}
-                  className="p-2 rounded-lg bg-emerald-950 border border-emerald-800 hover:bg-emerald-900 transition flex flex-col items-start gap-1"
-                >
-                  <span className="text-xs font-bold text-emerald-300">HAH</span>
-                  <span className="text-[10px] text-emerald-400/80">0900-1200</span>
-                </button>
+            {/* Time 0000 format */}
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs font-semibold text-slate-400 mb-1">
+                  起始時間 <span className="text-[10px] font-normal">(0000格式)</span>
+                </label>
+                <input
+                  type="text"
+                  maxLength={4}
+                  placeholder="1730"
+                  value={startTime}
+                  onChange={(e) => setStartTime(e.target.value.replace(/[^0-9]/g, ''))}
+                  className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-2 text-sm text-center text-amber-300 font-mono font-bold focus:outline-none focus:border-cyan-500"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-slate-400 mb-1">
+                  結束時間 <span className="text-[10px] font-normal">(0000格式)</span>
+                </label>
+                <input
+                  type="text"
+                  maxLength={4}
+                  placeholder="1930"
+                  value={endTime}
+                  onChange={(e) => setEndTime(e.target.value.replace(/[^0-9]/g, ''))}
+                  className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-2 text-sm text-center text-amber-300 font-mono font-bold focus:outline-none focus:border-cyan-500"
+                />
               </div>
             </div>
 
-            {/* Custom Generate */}
-            <div className="flex items-center justify-between pt-3 border-t border-slate-800/50">
+            {/* Reason Input with Quick Presets */}
+            <div>
+              <label className="block text-xs font-semibold text-slate-400 mb-1">
+                事由描述 / 加班說明
+              </label>
+              <input
+                type="text"
+                value={reason}
+                onChange={(e) => setReason(e.target.value)}
+                placeholder="例如: 處置病人與交接寫病歷"
+                className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500 mb-2"
+              />
+              <div className="flex flex-wrap gap-1.5">
+                {commonReasons.map((r, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => setReason(r)}
+                    className="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 border border-slate-700 text-[11px] text-slate-300 transition"
+                  >
+                    + {r}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="pt-3 border-t border-slate-800/50 flex flex-col gap-3">
               <span className="text-xs text-slate-400">
-                左側自訂時數合計：<strong className="text-cyan-400 font-bold">{selectedDates.length}</strong> 天 × {hours}h ={' '}
+                時數小計：<strong className="text-cyan-400 font-bold">{selectedDates.length}</strong> 天 × {hours}h ={' '}
                 <strong className="text-emerald-400 font-bold">{selectedDates.length * hours}</strong>h
               </span>
 
@@ -379,10 +387,10 @@ export const BatchGenerator: React.FC<BatchGeneratorProps> = ({
                 id="generate-batch-records-btn"
                 type="button"
                 onClick={handleGenerate}
-                className="px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold text-xs shadow-lg shadow-cyan-500/20 transition flex items-center space-x-1.5"
+                className="w-full py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold text-xs shadow-lg shadow-cyan-500/20 transition flex items-center justify-center space-x-1.5"
               >
                 <Plus className="w-4 h-4" />
-                <span>依左側自訂時間產生 ({selectedDates.length}筆)</span>
+                <span>依自訂時間產生 ({selectedDates.length}筆)</span>
               </button>
             </div>
           </div>

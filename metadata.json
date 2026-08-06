@@ -1,0 +1,6 @@
+{
+  "name": "奇美醫院加班批次申報助手",
+  "description": "專為奇美醫院員工設計的加班時數批次申報工具，支援月度排班解析、批次資料生成、CORS 代理發送、瀏覽器自動化腳本生成與 API 報文分析。",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
